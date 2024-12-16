@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:test_project/pages/home/controllers/home_controller.dart';
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
 class HomePage extends StatelessWidget {
   HomePage({super.key});
@@ -20,6 +19,7 @@ class HomePage extends StatelessWidget {
       }
     });
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.black,
         title: const Text(
@@ -41,51 +41,54 @@ class HomePage extends StatelessWidget {
             );
           }
 
-          return MasonryGridView.builder(
-            controller: _homeController.scrollController,
-            padding: const EdgeInsets.all(8.0),
-            gridDelegate: SliverSimpleGridDelegateWithMaxCrossAxisExtent(
-              maxCrossAxisExtent: 250,
-            ),
-            mainAxisSpacing: 8.0,
-            itemCount: _homeController.mealLogs.length,
-            itemBuilder: (context, index) {
-              final mealLog = _homeController.mealLogs[index];
-              return Card(
-                color: Colors.white,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12.0),
-                ),
-                elevation: 2,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    ClipRRect(
-                      borderRadius: const BorderRadius.vertical(
-                          top: Radius.circular(12.0)),
-                      child: Image.network(
-                        mealLog.image,
-                        fit: BoxFit.cover,
-                        width: double.infinity,
-                        errorBuilder: (context, error, stackTrace) =>
-                            const Icon(Icons.broken_image, size: 50),
+          return Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: TextField(
+                  decoration: InputDecoration(
+                    hintText: 'Search by name',
+                    hintStyle: TextStyle(color: Colors.grey.shade400),
+                    prefixIcon: Icon(
+                      Icons.search,
+                      color: Colors.grey.shade400,
+                    ),
+                    filled: true,
+                    fillColor: Colors.white,
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(32.0),
+                      borderSide: BorderSide(
+                        color: Colors.grey.shade400,
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(
-                        mealLog.note,
-                        style: const TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.bold,
-                        ),
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ),
-                  ],
+                  ),
                 ),
-              );
-            },
+              ),
+              Expanded(
+                child: GridView.builder(
+                  controller: _homeController.scrollController,
+                  padding: const EdgeInsets.all(8.0),
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 3,
+                    childAspectRatio: 1,
+                    mainAxisSpacing: 3.0,
+                    crossAxisSpacing: 3.0,
+                  ),
+                  itemCount: _homeController.mealLogs.length,
+                  itemBuilder: (context, index) {
+                    final mealLog = _homeController.mealLogs[index];
+                    return Image.network(
+                      mealLog.image,
+                      fit: BoxFit.cover,
+                      width: double.infinity,
+                      height: double.infinity,
+                      errorBuilder: (context, error, stackTrace) =>
+                          const Icon(Icons.broken_image, size: 50),
+                    );
+                  },
+                ),
+              ),
+            ],
           );
         },
       ),

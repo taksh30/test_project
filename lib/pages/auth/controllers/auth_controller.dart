@@ -27,7 +27,10 @@ class AuthController extends GetxController {
       final GoogleSignInAuthentication authentication =
           await account.authentication;
 
+          print(authentication.accessToken);
+
       return authentication.accessToken;
+      
     } catch (error) {
       print("Error signing in with Google: $error");
       return null;

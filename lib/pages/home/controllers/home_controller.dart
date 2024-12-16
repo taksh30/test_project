@@ -51,6 +51,10 @@ class HomeController extends GetxController {
 
       if (page == 1) {
         mealLogs.value = mealLog.data.mealLogs;
+
+        if (mealLogs.length <= 10) {
+          loadMoreMealLogs();
+        }
       } else {
         mealLogs.addAll(mealLog.data.mealLogs);
       }
