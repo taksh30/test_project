@@ -5,4 +5,6 @@ class Constants {
   static const String authEndpoint = 'auth/social-login';
 
   static const String mealLogEndpoint = 'meallogs';
+
+  static const double aspectRatioValue = 1;
 }
